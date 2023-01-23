@@ -6,6 +6,7 @@ import { buildSchema } from 'type-graphql';
 import mikroConfig from './mikro-orm.config';
 import { HelloResolver } from './resolvers/hello';
 import { PostResolver } from './resolvers/post';
+import { UserResolver } from './resolvers/user';
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
@@ -15,7 +16,7 @@ const main = async () => {
   const app = express();
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver],
+      resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
     context: () => ({ emFork }),
@@ -25,20 +26,6 @@ const main = async () => {
   app.listen(4000, () => {
     console.log('Server Started on localhost:4000');
   });
-  // const post = emFork.create(Post, {
-  //   title: 'my fist name',
-  //   createdAt: '',
-  //   updatedAt: '',
-  // });
-  // await emFork.persistAndFlush(post);
-  // const post = await emFork.find(Post, {});
-  // console.log('Post::::', post);
 };
 
 main().catch((err) => console.log(err));
-
-// PGUSER=postgres
-// PGHOST=localhost
-// PGPASSWORD=agbo158975
-// PGDATABASE=e-commerce
-// PGPORT=5432
